@@ -1,10 +1,30 @@
-**Ссылка на витрину в Vertica:**
-`STV2025061618__DWH.global_metrics`
+DWH для финтех-стартапа
+Стек: Python, Airflow, PostgreSQL, Vertica
 
-**Структура витрины:**
-- `date_update` - дата расчёта
-- `currency_from` - код валюты транзакции  
-- `amount_total` - общая сумма транзакций по валюте в долларах
-- `cnt_transactions` - общий объём транзакций по валюте
-- `avg_transactions_per_account` - средний объём транзакций с аккаунта
-- `cnt_accounts_make_transactions` - количество уникальных аккаунтов
+О проекте
+ETL-пайплайн для анализа транзакций пользователей из разных стран. Данные выгружаются из PostgreSQL, обрабатываются в Vertica и формируют витрину с метриками по переводам.
+
+Структура
+dags/ — 2 DAG'a: загрузка в staging и обновление витрины
+
+sql/ — DDL и скрипты расчёта метрик
+
+py/ — вспомогательные функции
+
+Витрина global_metrics
+date_update — дата расчёта
+
+currency_from — код валюты
+
+amount_total — сумма в долларах
+
+cnt_transactions — количество транзакций
+
+avg_transactions_per_account — среднее число транзакций на аккаунт
+
+cnt_accounts_make_transactions — количество уникальных аккаунтов
+
+Как запустить
+Создать Connections в Airflow: postgres_de_final, vertica_de_final
+
+Запустить DAG'ы: 1_data_import → 2_datamart_update
